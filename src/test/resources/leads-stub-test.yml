@@ -1,0 +1,14 @@
+database:
+ driverClass: org.postgresql.Driver
+  url: #TODO: update me
+  user: #TODO: update me
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+  logValidationErrors: true
+
+server:
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 3000

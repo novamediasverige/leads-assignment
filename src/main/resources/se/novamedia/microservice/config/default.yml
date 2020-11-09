@@ -1,0 +1,16 @@
+database:
+  driverClass: org.postgresql.Driver
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+
+server:
+  type: simple-logging
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 80
+
+logging:
+  appenders:
+    - type: application-console-appender
+    - type: request-console-appender
