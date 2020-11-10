@@ -2,8 +2,10 @@ package se.novamedia.service.leads.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 public class LeadCreationRequest {
+
     @JsonProperty("firstName")
     public final String firstName;
 
@@ -25,5 +27,10 @@ public class LeadCreationRequest {
         this.lastName = lastName;
         this.ssn = ssn;
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(obj, this);
     }
 }

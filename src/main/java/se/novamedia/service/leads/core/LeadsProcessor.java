@@ -19,9 +19,7 @@ public class LeadsProcessor {
     }
 
     public long storeLeadCandidate(LeadCreationRequest leadCreationRequest) {
-
         LeadsDao leadsDao = application.getDatabase().onDemand(LeadsDao.class);
-
         return leadsDao.insertLead(leadCreationRequest);
     }
 }
