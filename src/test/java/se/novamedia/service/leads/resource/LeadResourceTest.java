@@ -1,10 +1,11 @@
 package se.novamedia.service.leads.resource;
 
-import io.dropwizard.testing.junit.ResourceTestRule;
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import io.dropwizard.testing.junit5.ResourceExtension;
 import org.jdbi.v3.core.Jdbi;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import se.novamedia.service.leads.LeadsApplication;
 import se.novamedia.service.leads.api.LeadCreationRequest;
 import se.novamedia.service.leads.jdbi.LeadsDao;
@@ -18,27 +19,27 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class LeadResourceTest {
+@ExtendWith(DropwizardExtensionsSupport.class)
+class LeadResourceTest {
 
     private LeadsDao leadsDao = mock(LeadsDao.class);
-    private LeadsApplication leadApplication = mock(LeadsApplication.class);
+    private static final LeadsApplication leadApplication = mock(LeadsApplication.class);
 
-    @Rule
-    public ResourceTestRule resourceTestRule = ResourceTestRule.builder().addResource(new LeadResource(leadApplication)).build();
+    private static final ResourceExtension resourceExtension = ResourceExtension.builder().addResource(new LeadResource(leadApplication)).build();
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    public void beforeEach() {
         Jdbi database = mock(Jdbi.class);
         when(leadApplication.getDatabase()).thenReturn(database);
         when(database.onDemand(LeadsDao.class)).thenReturn(leadsDao);
     }
 
     @Test
-    public void shouldCreateNewLead() {
+    void shouldCreateNewLead() {
         LeadCreationRequest request = new LeadCreationRequest("John", "Doe", "197001010000", "john.doe@foo.com");
         given(leadsDao.insertLead(request)).willReturn(Long.valueOf(1));
 
-        Response response = resourceTestRule
+        Response response = resourceExtension
             .target("leads/lead")
             .request()
             .post(Entity.entity(request, MediaType.APPLICATION_JSON));

@@ -44,10 +44,9 @@ public class LeadsApplication extends Application<LeadsConfiguration> {
             new LeadResource(this));
     }
 
-    public static Jdbi create(Environment environment, DataSourceFactory dataSourceFactory, String name) throws ClassNotFoundException {
+    public static Jdbi create(Environment environment, DataSourceFactory dataSourceFactory, String name) {
         JdbiFactory factory = new JdbiFactory();
-        Jdbi jdbi = factory.build(environment, dataSourceFactory, name);
-        return jdbi;
+        return factory.build(environment, dataSourceFactory, name);
     }
 
     public Jdbi getDatabase() {

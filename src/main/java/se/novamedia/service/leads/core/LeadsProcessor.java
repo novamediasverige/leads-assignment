@@ -6,8 +6,6 @@ import se.novamedia.service.leads.LeadsApplication;
 import se.novamedia.service.leads.api.LeadCreationRequest;
 import se.novamedia.service.leads.jdbi.LeadsDao;
 
-import java.util.UUID;
-
 public class LeadsProcessor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LeadsProcessor.class);
@@ -20,7 +18,9 @@ public class LeadsProcessor {
 
     public long storeLeadCandidate(LeadCreationRequest leadCreationRequest) {
         LeadsDao leadsDao = application.getDatabase().onDemand(LeadsDao.class);
-        return leadsDao.insertLead(leadCreationRequest);
+        long leadId = leadsDao.insertLead(leadCreationRequest);
+        LOG.info("Created lead with id {}", leadId);
+        return leadId;
     }
 }
 
