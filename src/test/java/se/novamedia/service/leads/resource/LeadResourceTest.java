@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -22,15 +23,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(DropwizardExtensionsSupport.class)
 class LeadResourceTest {
 
-    private LeadsDao leadsDao = mock(LeadsDao.class);
-    private static final LeadsApplication leadApplication = mock(LeadsApplication.class);
-
-    private static final ResourceExtension resourceExtension = ResourceExtension.builder().addResource(new LeadResource(leadApplication)).build();
+    private final LeadsDao leadsDao = mock(LeadsDao.class);
+    private static final LeadsApplication application = mock(LeadsApplication.class);
+    private static final ResourceExtension resourceExtension = ResourceExtension.builder().addResource(new LeadResource(application)).build();
 
     @BeforeEach
     public void beforeEach() {
         Jdbi database = mock(Jdbi.class);
-        when(leadApplication.getDatabase()).thenReturn(database);
+        when(application.getDatabase()).thenReturn(database);
         when(database.onDemand(LeadsDao.class)).thenReturn(leadsDao);
     }
 
@@ -44,8 +44,8 @@ class LeadResourceTest {
             .request()
             .post(Entity.entity(request, MediaType.APPLICATION_JSON));
 
-        then(response.getStatus()).isEqualTo(200);
-        then(response.readEntity(String.class)).isEqualTo("1");
-        then(response.getMediaType()).isEqualTo(MediaType.APPLICATION_JSON_TYPE);
+        assertAll(
+            () -> then(response.getStatus()).isEqualTo(201),
+            () -> then(response.getLocation()).hasToString("http://localhost:0/leads/lead/1"));
     }
 }

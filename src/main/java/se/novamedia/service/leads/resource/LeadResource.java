@@ -8,7 +8,11 @@ import javax.validation.Valid;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 
 @Path("/leads/lead")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,7 +27,9 @@ public class LeadResource {
     }
 
     @POST
-    public long createLeadCandidate(@Valid LeadCreationRequest leadCreationRequest) {
-        return leadsProcessor.storeLeadCandidate(leadCreationRequest);
+    public Response createLeadCandidate(@Valid LeadCreationRequest leadCreationRequest, @Context UriInfo uriInfo) {
+        long leadId = leadsProcessor.storeLeadCandidate(leadCreationRequest);
+        URI leadUri = uriInfo.getAbsolutePathBuilder().path("{leadId}").build(leadId);
+        return Response.created(leadUri).build();
     }
 }

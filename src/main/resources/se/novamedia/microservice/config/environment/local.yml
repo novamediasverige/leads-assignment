@@ -4,11 +4,6 @@ database:
   driverClass: org.h2.Driver
   validationQuery: "/* MyService Health Check */ SELECT 1"
 
-logging:
-  level: INFO
-  appenders:
-    - type: console
-
 server:
   applicationConnectors:
     - type: http
