@@ -1,9 +1,8 @@
 database:
- driverClass: org.postgresql.Driver
-  url: #TODO: update me
-  user: #TODO: update me
-  validationQuery: "/* MyService Health Check */ SELECT 1"
-  logValidationErrors: true
+ url: jdbc:h2:mem:leads;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+ user: leads
+ driverClass: org.h2.Driver
+ validationQuery: "/* MyService Health Check */ SELECT 1"
 
 server:
   type: simple

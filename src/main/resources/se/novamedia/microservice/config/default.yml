@@ -11,6 +11,6 @@ server:
     port: 80
 
 logging:
+  level: INFO
   appenders:
-    - type: application-console-appender
-    - type: request-console-appender
+    - type: console

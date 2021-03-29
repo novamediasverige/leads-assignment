@@ -40,13 +40,11 @@ public class LeadsApplication extends Application<LeadsConfiguration> {
         jdbi.installPlugin(new SqlObjectPlugin());
         jdbi.installPlugin(new H2DatabasePlugin());
 
-        environment.jersey().register(
-            new LeadResource(this));
+        environment.jersey().register(new LeadResource(this));
     }
 
     public static Jdbi create(Environment environment, DataSourceFactory dataSourceFactory, String name) {
-        JdbiFactory factory = new JdbiFactory();
-        return factory.build(environment, dataSourceFactory, name);
+        return new JdbiFactory().build(environment, dataSourceFactory, name);
     }
 
     public Jdbi getDatabase() {
