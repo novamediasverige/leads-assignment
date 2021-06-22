@@ -45,4 +45,17 @@ class LeadsApplicationIT {
             () -> assertThat(response.getLocation()).hasToString("http://localhost:3000/leads/lead/1000000")
         );
     }
+
+    @Test
+    void getLeadsByDateTest() {
+        Client client = EXT.client();
+        String uri = String.format("http://localhost:%d/leads/getLeadsByDate?from=2021-06-20&to=2021-06-22", EXT.getLocalPort());
+
+        Response response = client.target(uri).request().get();
+
+        assertAll(
+                () -> assertThat(response.getStatus()).isEqualTo(200),
+                () -> assertThat(response).isEqualTo(null)
+        );
+    }
 }
