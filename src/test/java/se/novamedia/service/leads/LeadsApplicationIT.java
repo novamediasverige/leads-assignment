@@ -3,6 +3,7 @@ package se.novamedia.service.leads;
 import com.google.common.collect.ImmutableMap;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
+
+import java.sql.DriverManager;
 
 import static io.dropwizard.testing.ResourceHelpers.resourceFilePath;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +29,12 @@ class LeadsApplicationIT {
     @BeforeEach
     void beforeEach() throws Exception {
         EXT.getApplication().run("db", "migrate", resourceFilePath(CONFIG_LOCATION));
+    }
+
+    @AfterEach
+    void afterEach() throws Exception {
+        DriverManager.getConnection("jdbc:h2:mem:leads", "leads","").
+            createStatement().execute("DROP ALL OBJECTS");
     }
 
     @Test
