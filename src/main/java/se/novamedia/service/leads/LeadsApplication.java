@@ -21,7 +21,7 @@ public class LeadsApplication extends Application<LeadsConfiguration> {
 
     @Override
     public String getName() {
-        return "leads-stub";
+        return "leads-service";
     }
 
     @Override
