@@ -1,0 +1,10 @@
+### Create lead
+POST http://localhost:8080/leads/lead
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "ssn": "1912121212",
+  "email": "john.doe@test.com"
+}
