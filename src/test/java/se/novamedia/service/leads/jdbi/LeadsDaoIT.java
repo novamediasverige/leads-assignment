@@ -3,6 +3,7 @@ package se.novamedia.service.leads.jdbi;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.jdbi.v3.core.Jdbi;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +33,11 @@ class LeadsDaoIT {
         application.run("db", "migrate", resourceFilePath(CONFIG_LOCATION));
         database = application.getDatabase();
         leadsDao = database.onDemand(LeadsDao.class);
+    }
+
+    @AfterEach
+    void afterEach() {
+        database.open().execute("DROP ALL OBJECTS");
     }
 
     @Test
